@@ -1,0 +1,68 @@
+---
+import { Image } from "@astrojs/image/components";
+
+export interface Props {
+  avatarAlt: string;
+  avatarUrl: string;
+  company: string;
+  linkUrl: string;
+  name: string;
+  quote: string;
+}
+
+const { avatarAlt, avatarUrl, company, linkUrl, name, quote } = Astro.props;
+---
+
+<style>
+  .stylistic-quote-mark {
+    font-size: 5rem;
+    right: 100%;
+  }
+
+  @screen sm {
+    .stylistic-quote-mark {
+      @apply block;
+    }
+  }
+</style>
+<blockquote
+  class="relative italic quote"
+  p-4
+  text-xl
+  border-l-4
+  bg-neutral-100
+  text-neutral-600
+  border-neutral-500
+>
+  <div
+    class="text-[4rem] absolute"
+    mr-2
+    hidden
+    font-mono
+    text-neutral-500
+    top-0
+    leading-none
+    stylistic-quote-mark
+    aria-hidden="true"
+  >
+    &ldquo;
+  </div>
+  <p mb-4>{quote}</p>
+
+  <cite flex-row items-center>
+    <Image
+      alt={avatarAlt}
+      src={avatarUrl}
+      width={80}
+      height={80}
+      class="mr-4 rounded-full bg-neutral-500"
+    />
+    <div class="flex" flex-col items-start>
+      <span class="italic" mb-1 text-sm font-bold>{name}</span>
+
+      <a href={linkUrl} target="_blank" rel="noopener noreferrer" text-sm>
+        {company}
+      </a>
+    </div>
+  </cite>
+</blockquote>

@@ -6,6 +6,8 @@ import presetWind from "@unocss/preset-wind";
 import presetWebFonts from "@unocss/preset-web-fonts";
 import presetAttributify from "@unocss/preset-attributify";
 
+import image from "@astrojs/image";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://example.com",
@@ -15,14 +17,14 @@ export default defineConfig({
     Unocss({
       // https://github.com/unocss/unocss#presets
       presets: [
-        // Attributify Mode for UnoCSS.
-        // Useful for when the class="" string gets really long.
-        // https://github.com/unocss/unocss/tree/main/packages/preset-attributify
-        presetAttributify(),
         // Tailwind / Windi CSS compact preset for UnoCSS.
         // https://github.com/unocss/unocss/tree/main/packages/preset-wind
         presetWind(),
-        // Web fonts support for UnoCSS.
+
+        // Attributify Mode for UnoCSS.
+        // Useful for when the class="" string gets really long.
+        // https://github.com/unocss/unocss/tree/main/packages/preset-attributify
+        presetAttributify(), // Web fonts support for UnoCSS.
         presetWebFonts({
           // default provider is 'google', but 'bunny' is also supported:
           // https://fonts.bunny.net/ -- a privacy-friendly Google drop-in replacement
@@ -36,5 +38,6 @@ export default defineConfig({
         }),
       ],
     }),
+    image(),
   ],
 });
