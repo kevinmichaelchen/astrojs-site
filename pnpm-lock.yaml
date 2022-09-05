@@ -5,7 +5,10 @@ specifiers:
   '@astrojs/mdx': ^0.11.1
   '@astrojs/rss': ^1.0.0
   '@astrojs/sitemap': ^1.0.0
+  '@iconify-json/tabler': ^1.1.30
   '@unocss/preset-attributify': ^0.45.14
+  '@unocss/preset-icons': ^0.45.15
+  '@unocss/preset-typography': ^0.45.15
   '@unocss/preset-web-fonts': ^0.45.14
   '@unocss/preset-wind': ^0.45.14
   astro: ^1.1.5
@@ -21,7 +24,10 @@ dependencies:
 
 devDependencies:
   '@astrojs/image': 0.5.0
+  '@iconify-json/tabler': 1.1.30
   '@unocss/preset-attributify': 0.45.14
+  '@unocss/preset-icons': 0.45.15
+  '@unocss/preset-typography': 0.45.15
   '@unocss/preset-web-fonts': 0.45.14
   '@unocss/preset-wind': 0.45.14
   prettier: 2.7.1
@@ -440,6 +446,12 @@ packages:
     dev: false
     optional: true
 
+  /@iconify-json/tabler/1.1.30:
+    resolution: {integrity: sha512-IV7F3e/qvaQeWMq1ZwOcRF/3eX0/bXr84rjwsN3HwAUTCT86anCIcAWLrysw8gStQZ9Zv8HPz1TLuQMKpil79w==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: true
+
   /@iconify/types/1.1.0:
     resolution: {integrity: sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw==}
     dev: true
@@ -709,6 +721,10 @@ packages:
     resolution: {integrity: sha512-8tkFg/0QRmAcVJldT3v9yQfMNGoAmpRb6rQzOSa4AZy4u3zhRmKodtq8ZR6NnrlIYdR9NT01pmteQwICvSNP4Q==}
     dev: true
 
+  /@unocss/core/0.45.15:
+    resolution: {integrity: sha512-NM/l/+6sg4+qQqnzbpaGDEswfkH7c1oyRA+L+gYIFPAfehQMEdKkXXJozBdFy78kLjfPVLL6iMnDhcojdZvOSg==}
+    dev: true
+
   /@unocss/inspector/0.45.14:
     resolution: {integrity: sha512-29qjUjI4HP8YaCl4pwXsvQCQPQpXxf8fqbda346v+n7C9DYcGVZeivzpueq2BtIzpuyZtsiluUadtcUuTgIitA==}
     dependencies:
@@ -732,6 +748,16 @@ packages:
       - supports-color
     dev: true
 
+  /@unocss/preset-icons/0.45.15:
+    resolution: {integrity: sha512-+wSeZIK8ruAyVgYdmP8obdazPGO8Jd+vFmN/Iuy04iTiteWwZpC0U1IJTGbO1kwM3ikiA2eHCbKibke2rdo7Xw==}
+    dependencies:
+      '@iconify/utils': 1.0.33
+      '@unocss/core': 0.45.15
+      ohmyfetch: 0.4.18
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@unocss/preset-mini/0.45.14:
     resolution: {integrity: sha512-iQv5CGnUnZbF+fOiZQud/hz/UqBMwrrb84liMfGhqxXmtULtKF8GjuqXjyU5xWAFZqiE4ESe/QHQnuSKPTyTdg==}
     dependencies:
@@ -748,6 +774,12 @@ packages:
     resolution: {integrity: sha512-CSXU2OtB1NtwfB+EKxe0lQDijkNU4QTb2QiJgtryqfxCJNG3179bGD7CqBoWsijysjMwkVBI17FmGoNoT5Ax3A==}
     dependencies:
       '@unocss/core': 0.45.14
+    dev: true
+
+  /@unocss/preset-typography/0.45.15:
+    resolution: {integrity: sha512-vPAX4TRyI5hl/NxFss7U5GRCD5ZoKygB0cg/yUZKOhhZ5e4onWycn+JzsXYPLv5pG5AiW689IiGWPNXquGlHXw==}
+    dependencies:
+      '@unocss/core': 0.45.15
     dev: true
 
   /@unocss/preset-uno/0.45.14:

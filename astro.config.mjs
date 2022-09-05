@@ -5,6 +5,8 @@ import Unocss from "unocss/astro";
 import presetWind from "@unocss/preset-wind";
 import presetWebFonts from "@unocss/preset-web-fonts";
 import presetAttributify from "@unocss/preset-attributify";
+import presetIcons from "@unocss/preset-icons";
+import presetTypography from "@unocss/preset-typography";
 
 import image from "@astrojs/image";
 
@@ -20,6 +22,13 @@ export default defineConfig({
         // Tailwind / Windi CSS compact preset for UnoCSS.
         // https://github.com/unocss/unocss/tree/main/packages/preset-wind
         presetWind(),
+
+        // Use any icons with Pure CSS
+        // https://github.com/unocss/unocss/tree/main/packages/preset-icons
+        presetIcons(),
+
+        // https://github.com/unocss/unocss/tree/main/packages/preset-typography
+        presetTypography(),
 
         // Attributify Mode for UnoCSS.
         // Useful for when the class="" string gets really long.

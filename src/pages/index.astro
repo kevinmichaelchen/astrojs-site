@@ -13,19 +13,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
   </head>
   <body>
     <Header title={SITE_TITLE} />
-    <main>
-      <h1 class="text-xl text-orange-400 mb-4">
-        🧑‍🚀 Welcome to my AstroJS site!
-      </h1>
-      <Quote
-        avatarAlt="Kevin Chen"
-        avatarUrl="/mac-dog-1.jpeg"
-        company="The Drivers Coop"
-        linkUrl="https://www.linkedin.com/in/kevinchen93/"
-        name="Kevin Chen"
-        quote="Woohoo"
-      />
-      <p class="mt-4">
+    <main class="prose lg:prose-xl">
+      <h1 class="text-4xl text-slate-800 mt-6 mb-6">Kevin Chen</h1>
+      <p class="mt-4 leading-7 text-slate-600">
         I was inspired to use <a href="https://astro.build/" target="_blank"
           >AstroJS</a
         > since this site will be static, with the rare exception, such as the navbar.
