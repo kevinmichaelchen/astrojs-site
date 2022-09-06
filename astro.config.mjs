@@ -7,8 +7,9 @@ import presetWebFonts from "@unocss/preset-web-fonts";
 import presetAttributify from "@unocss/preset-attributify";
 import presetIcons from "@unocss/preset-icons";
 import presetTypography from "@unocss/preset-typography";
-
 import image from "@astrojs/image";
+
+import preact from "@astrojs/preact";
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,16 +22,29 @@ export default defineConfig({
       presets: [
         // Tailwind / Windi CSS compact preset for UnoCSS.
         // https://github.com/unocss/unocss/tree/main/packages/preset-wind
-        presetWind(),
-
-        // Use any icons with Pure CSS
+        presetWind(), // Use any icons with Pure CSS
         // https://github.com/unocss/unocss/tree/main/packages/preset-icons
-        presetIcons(),
-
-        // https://github.com/unocss/unocss/tree/main/packages/preset-typography
-        presetTypography(),
-
-        // Attributify Mode for UnoCSS.
+        presetIcons(), // https://github.com/unocss/unocss/tree/main/packages/preset-typography
+        presetTypography({
+          cssExtend: {
+            h2: {
+              position: "relative",
+            },
+            "h2:hover": {
+              color: "#8b5cf6",
+            },
+            ".anchor-link": {
+              color: "#666",
+              opacity: "0",
+              position: "absolute",
+              transform: "translate(-1em, -2px)",
+              width: "1em",
+            },
+            "h2:hover .anchor-link": {
+              opacity: "1",
+            },
+          },
+        }), // Attributify Mode for UnoCSS.
         // Useful for when the class="" string gets really long.
         // https://github.com/unocss/unocss/tree/main/packages/preset-attributify
         presetAttributify(), // Web fonts support for UnoCSS.
@@ -48,5 +62,6 @@ export default defineConfig({
       ],
     }),
     image(),
+    preact(),
   ],
 });

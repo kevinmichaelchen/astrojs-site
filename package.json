@@ -18,12 +18,14 @@
   },
   "devDependencies": {
     "@astrojs/image": "^0.5.0",
+    "@astrojs/preact": "^1.0.2",
     "@iconify-json/tabler": "^1.1.30",
     "@unocss/preset-attributify": "^0.45.14",
     "@unocss/preset-icons": "^0.45.15",
     "@unocss/preset-typography": "^0.45.15",
     "@unocss/preset-web-fonts": "^0.45.14",
     "@unocss/preset-wind": "^0.45.14",
+    "preact": "^10.6.5",
     "prettier": "^2.7.1",
     "prettier-plugin-astro": "^0.5.4",
     "unocss": "^0.45.14"
