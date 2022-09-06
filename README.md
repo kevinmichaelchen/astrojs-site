@@ -1,8 +1,11 @@
-# Astro Starter Kit: Blog
+# Personal AstroJS Site
 
+Scaffolded with AstroJS:
 ```
 npm init astro -- --template blog
 ```
+
+Built using TailwindCSS / UnoCSS. It's a WIP. Aiming at something like [Anthony Fu's site](https://antfu.me/posts).
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
 
