@@ -45,7 +45,25 @@ const tweetIntent = `Reading @kevinmchen's https://kchen.io${url}\n\nI think...`
 
   <body>
     <Header />
-    <main class="prose lg:prose-xl">
+    <main class="px-7 py-10">
+      <div class="prose m-auto mb-8">
+        <h1 class="mb-0">
+          {title}
+        </h1>
+
+        {pubDate && <time>{pubDate}</time>}
+        {
+          updatedDate && (
+            <div>
+              Last updated on <time>{updatedDate}</time>
+            </div>
+          )
+        }
+
+        <p class="opacity-50 !-mt-2">
+          May 30 <span>· 9min</span>
+        </p>
+      </div>
       <article>
         <div class="flex justify-center p-4">
           {
@@ -66,19 +84,12 @@ const tweetIntent = `Reading @kevinmchen's https://kchen.io${url}\n\nI think...`
             )
           }
         </div>
-        <h1 class="text-[2em] mt-[0.25em] mx-0 mb-0">{title}</h1>
-        {pubDate && <time>{pubDate}</time>}
-        {
-          updatedDate && (
-            <div>
-              Last updated on <time>{updatedDate}</time>
-            </div>
-          )
-        }
         <hr class="my-4 mx-0" />
-        <slot />
+        <div class="prose m-auto">
+          <slot />
+        </div>
       </article>
-      <div>
+      <div class="prose m-auto mt-16 mb-4">
         <a
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
             tweetIntent

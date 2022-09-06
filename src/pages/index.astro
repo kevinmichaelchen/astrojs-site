@@ -2,7 +2,6 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import Quote from "../components/Quote.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 ---
 
@@ -11,21 +10,34 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body>
+  <body class="font-sans text-gray-700 dark:text-gray-200">
     <Header title={SITE_TITLE} />
-    <main class="prose lg:prose-xl">
-      <h1 class="text-4xl text-slate-800 mt-6 mb-6">Kevin Chen</h1>
-      <p class="mt-4 leading-7 text-slate-600">
-        I was inspired to use <a href="https://astro.build/" target="_blank"
-          >AstroJS</a
-        > since this site will be static, with the rare exception, such as the navbar.
-        Astro lets you use any UI framework (e.g., React, Preact, etc) and checks
-        a lot of SEO boxes (image optimization, RSS, sitemaps, etc). It's also built
-        with the
-        <a href="https://docs.astro.build/en/concepts/islands/" target="_blank"
-          >Islands Architecture</a
-        > in mind so that the client receives as little JS as necessary.
-      </p>
+    <main class="px-7 py-10">
+      <div class="prose m-auto mb-8">
+        <h1 class="mb-0">Kevin Chen</h1>
+      </div>
+      <article>
+        <div class="prose m-auto">
+          <p>
+            Hey, I am Kevin, a software engineer. Currently looking for my next
+            role.
+          </p>
+          <p>
+            I was inspired to use <a href="https://astro.build/" target="_blank"
+              >AstroJS</a
+            > since this site will be static, with the rare exception, such as the
+            navbar. Astro lets you use any UI framework (e.g., React, Preact, etc)
+            and checks a lot of SEO boxes (image optimization, RSS, sitemaps, etc).
+            It's also built with the
+            <a
+              href="https://docs.astro.build/en/concepts/islands/"
+              target="_blank">Islands Architecture</a
+            > in mind so that the client receives as little JS as necessary.
+          </p>
+          <hr class="w-[50px] h-0 border-t m-[2em_auto] border-gray-300" />
+          <p>Find me on GitHub or Twitter.</p>
+        </div>
+      </article>
     </main>
     <Footer />
   </body>
