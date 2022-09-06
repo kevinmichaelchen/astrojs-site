@@ -2,13 +2,16 @@
 const today = new Date();
 ---
 
-<footer class="mt-10 mb-6 prose m-auto opacity-50 flex underline-offset-4">
-  <span class="text-sm">
+<footer
+  class="mt-10 mb-6 prose m-auto opacity-50 flex flex-col space-y-2 underline-offset-4"
+>
+  <div class="text-sm">
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
       >CC BY-NC-SA 4.0</a
     >
-    {today.getFullYear()} &copy; Kevin Chen. Inspired by <a
-      href="https://antfu.me/">@antfu</a
-    >.
-  </span>
+    {today.getFullYear()} &copy; Kevin Chen.
+  </div>
+  <div class="text-sm">
+    Inspired by <a href="https://antfu.me/">@antfu</a>.
+  </div>
 </footer>
