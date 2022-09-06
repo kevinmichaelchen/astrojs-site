@@ -1,14 +1,16 @@
 ---
-export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {}
+export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  iconClass?: string;
+  external?: boolean;
+}
 
-const { href, class: className, ...props } = Astro.props;
+const { href, iconClass, external, class: className, ...props } = Astro.props;
 const isActive = href === Astro.url.pathname;
 ---
 
 <a
   href={href}
   class:list={[
-    className,
     "flex",
     "justify-center",
     "items-center",
@@ -16,8 +18,13 @@ const isActive = href === Astro.url.pathname;
     "hover:text-gray-700",
     "no-underline",
     { "font-semibold": isActive },
+    className,
   ]}
+  target={external ? "_blank" : "_self"}
   {...props}
 >
-  <slot />
+  <span class:list={["hidden", { "md:flex": !external }]}>
+    <slot />
+  </span>
+  <div class:list={[iconClass, "flex", { "md:hidden": !external }]}></div>
 </a>
