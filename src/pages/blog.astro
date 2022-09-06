@@ -57,29 +57,31 @@ const postChunks = (await Astro.glob("./blog/*.{md,mdx}"))
                     </span>
                   </div>
                   <div class="flex flex-col space-y-4">
-                  {posts
-                    .sort(
-                      (a, b) =>
-                        new Date(b.frontmatter.pubDate).valueOf() -
-                        new Date(a.frontmatter.pubDate).valueOf()
-                    )
-                    .map((post) => (
-                      <a href={post.url} class="no-underline group">
-                        <li class="flex flex-col">
-                          <div class="text-xl text-gray-400 group-hover:text-gray-600">{post.frontmatter.title}</div>
-                          <div class="text-sm text-gray-300 group-hover:text-gray-500 mt-[2px]">
-                            {new Date(
-                              post.frontmatter.pubDate
-                            ).toLocaleDateString("en-us", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </div>
-                        </li>
-                      </a>
-                    ))}
-                    </div>
+                    {posts
+                      .sort(
+                        (a, b) =>
+                          new Date(b.frontmatter.pubDate).valueOf() -
+                          new Date(a.frontmatter.pubDate).valueOf()
+                      )
+                      .map((post) => (
+                        <a href={post.url} class="no-underline group">
+                          <li class="flex flex-col">
+                            <div class="text-xl text-gray-400 group-hover:text-gray-600">
+                              {post.frontmatter.title}
+                            </div>
+                            <div class="text-sm text-gray-300 group-hover:text-gray-500 mt-[2px]">
+                              {new Date(
+                                post.frontmatter.pubDate
+                              ).toLocaleDateString("en-us", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </div>
+                          </li>
+                        </a>
+                      ))}
+                  </div>
                 </>
               );
             })
