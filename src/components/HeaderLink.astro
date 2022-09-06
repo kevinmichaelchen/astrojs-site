@@ -2,16 +2,26 @@
 export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
   iconClass?: string;
   external?: boolean;
+  optional?: boolean; // whether the link is removed at smaller breakpoints
 }
 
-const { href, iconClass, external, class: className, ...props } = Astro.props;
+const {
+  href,
+  iconClass,
+  external,
+  optional,
+  class: className,
+  ...props
+} = Astro.props;
 const isActive = href === Astro.url.pathname;
 ---
 
 <a
   href={href}
   class:list={[
-    "flex",
+    { hidden: optional },
+    { flex: !optional },
+    "md:flex",
     "justify-center",
     "items-center",
     "text-gray-400",
