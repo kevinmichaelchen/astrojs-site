@@ -14,19 +14,27 @@ import { SITE_TITLE } from "../config";
     <div class="m-auto"></div>
     <div class="grid gap-5 grid-flow-col">
       <HeaderLink href="/blog" iconClass="i-tabler-article">Blog</HeaderLink>
+      <HeaderLink href="/projects" iconClass="i-tabler-bulb"
+        >Projects</HeaderLink
+      >
       <HeaderLink href="/about" optional>About</HeaderLink>
       <HeaderLink
         external
+        optional
         href="https://twitter.com/kevinmchen"
         iconClass="i-tabler-brand-twitter"
       />
       <HeaderLink
         external
+        optional
         href="https://github.com/kevinmichaelchen"
         iconClass="i-tabler-brand-github"
       />
-      <HeaderLink external href="/rss.xml" iconClass="i-tabler-rss" />
-      <div class="i-tabler-moon"></div>
+      <HeaderLink external optional href="/rss.xml" iconClass="i-tabler-rss" />
+      <div
+        class="flex justify-center items-center text-xl text-gray-400 hover:text-gray-700 i-tabler-moon"
+      >
+      </div>
     </div>
   </nav>
 </header>
