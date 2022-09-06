@@ -2,7 +2,7 @@
 layout: "../../layouts/BlogPost.astro"
 title: "First post"
 description: "Lorem ipsum dolor sit amet"
-pubDate: "Jul 08 2022"
+pubDate: "Jul 08 2021"
 heroImageSrc: "/placeholder-hero.jpg"
 heroImageHeight: 360
 heroImageAspectRatio: "2:4"
