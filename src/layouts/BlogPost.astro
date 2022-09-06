@@ -20,6 +20,7 @@ export interface Props {
 }
 
 const {
+  url,
   content: {
     title,
     description,
@@ -33,6 +34,8 @@ const {
     heroImageClass,
   },
 } = Astro.props;
+
+const tweetIntent = `Reading @kevinmchen's https://kchen.io${url}\n\nI think...`;
 ---
 
 <html lang="en">
@@ -75,6 +78,15 @@ const {
         <hr class="my-4 mx-0" />
         <slot />
       </article>
+      <div>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            tweetIntent
+          )}`}
+        >
+          comment on twitter
+        </a>
+      </div>
     </main>
     <Footer />
   </body>
