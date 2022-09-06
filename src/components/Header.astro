@@ -7,20 +7,26 @@ import { SITE_TITLE } from "../config";
   <h2>
     {SITE_TITLE}
   </h2>
-  <nav>
-    <HeaderLink href="/">Home</HeaderLink>
-    <HeaderLink href="/blog">Blog</HeaderLink>
-    <HeaderLink href="/about">About</HeaderLink>
-    <HeaderLink href="https://twitter.com/kevinmchen" target="_blank"
-      ><div class="i-tabler-brand-twitter"></div>
-    </HeaderLink>
-    <HeaderLink href="https://github.com/kevinmichaelchen" target="_blank"
-      ><div class="i-tabler-brand-github"></div>
-    </HeaderLink>
-    <HeaderLink href="/rss.xml" target="_blank"
-      ><div class="i-tabler-rss"></div>
-    </HeaderLink>
-    <div class="i-tabler-moon"></div>
+  <a class="w-10 h-10 absolute lg:fixed m-6 select-none outline-none">
+    <img src="/favicon.svg" />
+  </a>
+  <nav class="p-8 w-full grid grid-cols-[auto_max-content] box-border">
+    <div class="m-auto"></div>
+    <div class="grid gap-5 grid-flow-col">
+      <HeaderLink href="/">Home</HeaderLink>
+      <HeaderLink href="/blog">Blog</HeaderLink>
+      <HeaderLink href="/about">About</HeaderLink>
+      <HeaderLink href="https://twitter.com/kevinmchen" target="_blank"
+        ><div class="i-tabler-brand-twitter"></div>
+      </HeaderLink>
+      <HeaderLink href="https://github.com/kevinmichaelchen" target="_blank"
+        ><div class="i-tabler-brand-github"></div>
+      </HeaderLink>
+      <HeaderLink href="/rss.xml" target="_blank"
+        ><div class="i-tabler-rss"></div>
+      </HeaderLink>
+      <div class="i-tabler-moon"></div>
+    </div>
   </nav>
 </header>
 <style>
