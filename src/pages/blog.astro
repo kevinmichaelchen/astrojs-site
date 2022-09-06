@@ -66,10 +66,10 @@ const postChunks = (await Astro.glob("./blog/*.{md,mdx}"))
                       .map((post) => (
                         <a href={post.url} class="no-underline group">
                           <li class="flex flex-col">
-                            <div class="text-xl text-gray-400 group-hover:text-gray-600">
+                            <div class="text-xl text-gray-500 group-hover:text-gray-900">
                               {post.frontmatter.title}
                             </div>
-                            <div class="text-sm text-gray-300 group-hover:text-gray-500 mt-[2px]">
+                            <div class="text-sm text-gray-400 group-hover:text-gray-600 mt-[2px]">
                               {new Date(
                                 post.frontmatter.pubDate
                               ).toLocaleDateString("en-us", {
