@@ -25,26 +25,7 @@ export default defineConfig({
         presetWind(), // Use any icons with Pure CSS
         // https://github.com/unocss/unocss/tree/main/packages/preset-icons
         presetIcons(), // https://github.com/unocss/unocss/tree/main/packages/preset-typography
-        presetTypography({
-          cssExtend: {
-            h2: {
-              position: "relative",
-            },
-            "h2:hover": {
-              color: "#8b5cf6",
-            },
-            ".anchor-link": {
-              color: "#666",
-              opacity: "0",
-              position: "absolute",
-              transform: "translate(-1em, -2px)",
-              width: "1em",
-            },
-            "h2:hover .anchor-link": {
-              opacity: "1",
-            },
-          },
-        }), // Attributify Mode for UnoCSS.
+        presetTypography(), // Attributify Mode for UnoCSS.
         // Useful for when the class="" string gets really long.
         // https://github.com/unocss/unocss/tree/main/packages/preset-attributify
         presetAttributify(), // Web fonts support for UnoCSS.
