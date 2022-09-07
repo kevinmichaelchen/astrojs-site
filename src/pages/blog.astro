@@ -23,7 +23,7 @@ const postChunks = (await Astro.glob("./blog/*.{md,mdx}"))
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`${SITE_TITLE} | Blog`} description={SITE_DESCRIPTION} />
     <style>
       ul {
         list-style-type: none;
