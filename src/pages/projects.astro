@@ -2,21 +2,37 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import Project from "../components/Project.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 
 export const projects = [
   {
-    name: "api-dispatch",
-    desc: "A dispatch server for rideshare platforms using H3 geospatial indexing.",
-    icon: "i-tabler-car",
-    link: "https://github.com/kevinmichaelchen/api-dispatch/",
+    sectionName: "Golang",
+    projects: [
+      {
+        name: "api-dispatch",
+        desc: "A dispatch server for rideshare platforms using H3 geospatial indexing.",
+        icon: "i-tabler-car",
+        link: "https://github.com/kevinmichaelchen/api-dispatch/",
+      },
+      {
+        name: "api-go-template",
+        desc: "A template Go server with dependency injection, gRPC, DB, telemetry, etc.",
+        icon: "i-tabler-list-check",
+        link: "https://github.com/kevinmichaelchen/api-go-template",
+      },
+    ],
   },
   {
-    name: "api-go-template",
-    desc: "A template Go server with dependency injection, gRPC, DB, Telemetry, etc.",
-    icon: "i-tabler-list-check",
-    link: "https://github.com/kevinmichaelchen/api-go-template",
+    sectionName: "Frontend",
+    projects: [
+      {
+        name: "this site",
+        desc: "Static site built on AstroJS and TailwindCSS.",
+        icon: "i-tabler-palette",
+        link: "https://github.com/kevinmichaelchen/astrojs-site/",
+      },
+    ],
   },
 ];
 ---
@@ -28,19 +44,14 @@ export const projects = [
   </head>
   <body class="font-sans text-gray-700 dark:text-gray-200">
     <Header title={SITE_TITLE} />
-    <main class="px-7 py-10">
+    <main class="px-7 pb-10">
       <div class="prose m-auto mb-8">
         <h1 class="mb-0">My Projects</h1>
         <p class="opacity-50 italic -mt-1">List of projects I'm proud of</p>
       </div>
       <article>
         <div class="prose m-auto">
-          <h4 class="mt-10 font-bold">Golang</h4>
-          <div
-            class="grid py-2 -mx-3 gap-2 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]"
-          >
-            {projects.map((p) => <Project {...p} />)}
-          </div>
+          {projects.map((p) => <ProjectsSection {...p} />)}
         </div>
       </article>
     </main>
