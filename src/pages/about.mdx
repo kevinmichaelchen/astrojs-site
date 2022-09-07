@@ -11,14 +11,9 @@ heroImageAlt: "Me with a dog named Mac, at IrisVR's dog-friendly Manhattan offic
 ---
 
 import Link from "../components/Link.jsx";
-import makeHeader from "../components/makeHeader.jsx";
+import { headers } from "../components/makeHeader.jsx";
 export const components = {
-  h1: makeHeader(1),
-  h2: makeHeader(2),
-  h3: makeHeader(3),
-  h4: makeHeader(4),
-  h5: makeHeader(5),
-  h6: makeHeader(6),
+  ...headers,
 };
 
 I'm still building this site. Here's my <Link href="/resume.pdf" external>resume</Link>, built with <Link href="https://www.overleaf.com/read/dtpfhnwfyknp" external>Latex</Link>.

@@ -68,3 +68,12 @@ const makeHeader =
   };
 
 export default makeHeader;
+
+export const headers = {
+  h1: makeHeader(1),
+  h2: makeHeader(2),
+  h3: makeHeader(3),
+  h4: makeHeader(4),
+  h5: makeHeader(5),
+  h6: makeHeader(6),
+};

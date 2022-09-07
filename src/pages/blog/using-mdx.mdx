@@ -8,14 +8,9 @@ heroImageHeight: 360
 heroImageAspectRatio: "2:4"
 ---
 
-import makeHeader from "../../components/makeHeader.jsx";
+import { headers } from "../../components/makeHeader.jsx";
 export const components = {
-  h1: makeHeader(1),
-  h2: makeHeader(2),
-  h3: makeHeader(3),
-  h4: makeHeader(4),
-  h5: makeHeader(5),
-  h6: makeHeader(6),
+  ...headers,
 };
 
 This theme comes with the [@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/) integration installed and configured in your `astro.config.mjs` config file. If you prefer not to use MDX, you can disable support by removing the integration from your config file.
