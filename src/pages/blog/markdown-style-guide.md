@@ -8,6 +8,8 @@ heroImageHeight: 360
 heroImageAspectRatio: "2:4"
 ---
 
+I'm still building this site. Here's some Lorem Ipsum...
+
 Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro.
 
 ## Headings
