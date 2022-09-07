@@ -1,0 +1,41 @@
+---
+layout: "../../layouts/BlogPost.astro"
+title: "Engineering at Care.com"
+description: "My time as an engineer at Care.com"
+pubDate: "Mar 08 2022"
+heroImageSrc: "/placeholder-hero.jpg"
+heroImageHeight: 360
+heroImageAspectRatio: "2:4"
+---
+
+import { Image } from "@astrojs/image/components";
+import { headers } from "../../components/makeHeader.jsx";
+import Link from "../../components/Link.jsx";
+export const components = {
+  ...headers,
+};
+
+In my next role post-IrisVR, I was looking for similar tech-stack environment: Golang, AWS, Kafka, gRPC, protobufs, microservices, event-driven, etc.
+
+Care.com had that technology, but it also had more process, more infrastructure, more documentation, more everything — due to its 200+ engineers.
+
+I learned a lot from more senior engineers. Little things, like how to write table-driven unit tests using nothing but the standard library, <Link href="https://gist.github.com/kevinmichaelchen/6afae8ecf0bfb28248877c39abaf0ced" external>when/where to declare an interface</Link>, etc.
+But also more important things: habits like _"stop starting, start stopping"_, agreeing on a good _definition of done_, awareness about over-engineering (KISS), etc.
+
+Here are some of my highlights there:
+
+## Win 1: Code Quality and Docs
+
+A lot of this is kind of grunt work. You definitely won't get promoted for it, but the little things lead to better experiences down the road.
+
+It's unclear what kind of impact improving the readability of a function, or boosting unit test coverage, has. But it can't hurt.
+
+Code quality was something I was thinking about a lot.
+
+At a larger org, there will be many teams. People will be hop in your team's Slack channel and ask technical or domain questions.
+I always tried to be as responsive and helpful as possible. Responding to Slack inquiries are a kind of documentation in their own right.
+When people have a question, chances are someone else has asked it in Slack before. I would often create some quick diagrams in Draw.io and attach them to Slack messages,
+to visually explain parts of our stack. Maybe this would cause Slack to inadvertently compete with Confluence as a source of truth
+for documentation, but I didn't think that was necessarily a bad thing.
+
+## Win 2: Senior-Care Ingestion
