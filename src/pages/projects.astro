@@ -1,0 +1,49 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Project from "../components/Project.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
+
+export const projects = [
+  {
+    name: "api-dispatch",
+    desc: "A dispatch server for rideshare platforms.",
+    icon: "i-tabler-car",
+    link: "https://github.com/kevinmichaelchen/api-dispatch/",
+  },
+  {
+    name: "api-go-template",
+    desc: "A template Go server with dependency injection, gRPC, DB, Telemetry, etc.",
+    icon: "i-tabler-list-check",
+    link: "https://github.com/kevinmichaelchen/api-go-template",
+  },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="font-sans text-gray-700 dark:text-gray-200">
+    <Header title={SITE_TITLE} />
+    <main class="px-7 py-10">
+      <div class="prose m-auto mb-8">
+        <h1 class="mb-2">My Projects</h1>
+        <p class="opacity-50 italic">List of projects I'm proud of</p>
+      </div>
+      <article>
+        <div class="prose m-auto">
+          <h4 class="mt-10 font-bold">Golang</h4>
+          <div
+            class="grid py-2 -mx-3 gap-2 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]"
+          >
+            {projects.map((p) => <Project {...p} />)}
+          </div>
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

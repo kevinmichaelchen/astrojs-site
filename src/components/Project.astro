@@ -1,0 +1,28 @@
+---
+export interface Props {
+  name: string;
+  desc: string;
+  icon: string;
+  link: string;
+}
+
+const { name, desc, icon, link } = Astro.props;
+---
+
+<a
+  href={link}
+  target="_blank"
+  class="group item relative flex items-center no-underline hover:bg-gray-50 p-4"
+>
+  <div class="pt-2 pr-5">
+    <div class:list={["text-3xl", "opacity-50", icon]}></div>
+  </div>
+  <div class="flex-auto">
+    <div class="text-lg">
+      {name}
+    </div>
+    <div class="text-sm opacity-50 font-normal">
+      {desc}
+    </div>
+  </div>
+</a>
