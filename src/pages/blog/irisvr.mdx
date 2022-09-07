@@ -1,0 +1,132 @@
+---
+layout: "../../layouts/BlogPost.astro"
+title: "Engineering at IrisVR"
+description: "My time as an engineer at IrisVR"
+pubDate: "Mar 02 2021"
+heroImageSrc: "/irisvr-group.jpg"
+heroImageWidth: 500
+heroImageAspectRatio: "4032:3024"
+---
+
+import { Image } from "@astrojs/image/components";
+import { headers } from "../../components/makeHeader.jsx";
+import Link from "../../components/Link.jsx";
+export const components = {
+  ...headers,
+};
+
+In late 2018, I was seeking new work for a few reasons:
+
+- I was yearning new skills (e.g., Golang).
+- I wanted to experience living in New York City.
+- I wanted to work for a _frontier tech_ company.
+
+I felt somewhat lucky seeing IrisVR on LinkedIn, and an old mutual connection from my Exeter days: Robin Kim.
+
+The role checked all the boxes I was looking for.
+
+Here's a closer look at my time as an engineer there.
+
+## Mission
+
+Iris was a true frontier tech company. Their thesis was that existing processes in the AEC (architecture, engineering, construction) were inefficient and error-prone.
+It was better to review your models in an immersive environment and catch conflicts and issues there, rather than catching _very costly_ mistakes mid-cycle.
+
+## Win 1: Marketing Page Web Vitals
+
+One of the first tasks I took on when I arrived was improving the performance of the marketing splash page, <Link external product href="https://irisvr.com">irisvr.com</Link>, in order to yield greater revenue and higher conversion rates. (See <Link href="https://web.dev/rakuten/" external>here</Link> and <Link href="https://web.dev/vitals-business-impact/" external>here</Link>).
+
+It was tedious work, but an important contribution.
+
+Essentially what this task consisted was porting components and styles out of our
+monolithic Create-React-App and into <Link external product href="https://www.gatsbyjs.com/">GatsbyJS</Link>,
+a framework that gave us a lot around SEO best practices, and even more value around image optimizations:
+
+- webp format
+- variety of image resolutions for every screen size
+- progressive loading via the <Link external href="https://using-gatsby-image.gatsbyjs.org/blur-up/">Blur Up technique</Link>.
+
+After all was said and done, our Light House scores were pretty satisfactory, having previously been bogged down by heavy assets.
+
+## Win 2: Migration to the Cloud
+
+With the release of the 1st-gen <Link external href="https://en.wikipedia.org/wiki/Oculus_Quest">Oculus Quest</Link>, our users were excited to collaborate inside their CAD models using wireless headsets.
+In anticipation of the hype around improved ergonomics, we knew it was critical for our product to be able to host CAD files in the cloud.
+
+It was time to move off the desktop and into the cloud!
+
+Going into this project, we had two main constraints:
+
+1. Allow _disconnected operations_: when users don't have internet, they should still be allowed to mark up files; tweak file metadata; rename, move, add, or delete files; etc.
+2. Minimize conflicts in the event multiple users mutate the same entity.
+
+### Events and Disconnected Ops
+
+To achieve the first goal, we decided the client would need to cache events. When it had an internet connection,
+it would periodically sync those events to the server. For this, I built a <Link external href="https://grpc.io/">gRPC</Link> API on <Link external href="https://firebase.google.com/docs/firestore">Google Cloud Firestore</Link>.
+Although the system I ended up building was akin to an infinitely nestable hierarchical file system, in practice the only two domain entities that mattered
+were _projects_ (folders) and _experiences_ (CAD files, represented as bundles of files, kind of like a ZIP file).
+
+<div class="flex justify-center mt-12">
+  <Link href="/irisvr/domain-topology.png" external>
+    <Image
+      format="webp"
+      width={720}
+      aspectRatio="2812:2401"
+      src="/irisvr/domain-topology.png"
+      alt="The IrisVR Domain Topology"
+    />
+  </Link>
+</div>
+
+### Conflict Minimization
+
+To minimize (but not fully eradicate) conflicts, whenever any node(s) (folder or file) under a Project ancestor was mutated, we generated a new UUID, called _LastRevisionID_,
+which we then recursively propagated upward. This would indicate to clients whether certain Projects needed syncing before mutation events were pushed to the server.
+
+We had some tolerance for edge cases. For example:
+
+1. On Monday, Alice downloads a folder (called "New York City"), immediately turns off her internet, and then renames it to "NYC".
+2. On Tuesday, Bob downloads the same file ("New York City") and renames it to "Big Apple".
+3. On Wednesday, Alice turns on her internet. Her client realizes revisions have been made and receives the new name, "Big Apple". However, her rename event is sent regardless and overwrites Bob's, even though his technically happened chronologically after.
+
+It was effectively a last-in-wins approach.
+
+### Other complexities
+
+#### Concurrent Writes
+
+Firestore limits the number of documents any one transaction can touch to 500.
+If a user went offline for a long period of time, the C# client would have to batch these events.
+It did some intelligent squashing to remove redundant events, but occasionally, we'd run into concurrent-write errors.
+Retries were an effective solution here.
+
+#### Read first, then write
+
+Another major limitation of Firestore was: _All read operations must come before write operations_.
+This meant that when the server was processing batches of events, it basically had to build out
+the new file tree in memory as it was reading the stream, and only once all the reads were performed
+could it start creating, mutating, and/or deleting existing nodes.
+
+I remember writing a bunch of unit tests for this behavior, only to scrap all of them in favor of integration tests.
+Reasoning about an API contract is a lot less overwhelming and more readable than trying to reason about internal complexity.
+_Treating our logic like a black box led to better test coverage and confidence_.
+
+## Win 3: Issue Tracking
+
+Another big win from 2020 was issue tracking. An issue consists of a title, description, status, type (e.g., clash, quality control, etc), creation timestamp, and priority.
+Think of JIRA, ClickUp, Trello, or any number of project management softwares.
+
+As a backend engineer, I was responsible for building the GraphQL API that powered queries and mutations.
+
+From a complexity standpoint, this was a simpler epic than building the C#-gRPC-Firestore file system bridge. Still, it involved lots of coordination between the backend team (myself), the C# library (Ezra Smith), and the Unity team (Sten Ulfsson and Jake Loeterman).
+
+<div class="flex justify-center mt-12">
+  <Image
+    format="webp"
+    width={360}
+    aspectRatio="2562:676"
+    src="/irisvr.webp"
+    alt="The IrisVR Logo"
+  />
+</div>

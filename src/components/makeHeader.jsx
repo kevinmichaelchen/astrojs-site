@@ -57,7 +57,7 @@ const makeHeader =
       <Wrapper id={anchor} class="relative group hover:text-zinc-600">
         <a
           href={link}
-          class="absolute text-gray-500 opacity-0 group-hover:opacity-100 w-4 translate-x-[-1em] translate-y-[-2px]"
+          class="absolute no-underline text-gray-500 opacity-0 group-hover:opacity-100 w-4 translate-x-[-1em] translate-y-[-2px]"
           aria-hidden="true"
         >
           §
