@@ -5,7 +5,17 @@ import { Image } from "@astrojs/image/components";
 
 <header class="z-40">
   <a href="/" class="w-10 h-10 absolute lg:fixed m-6 select-none outline-none">
-    <Image src="/favicon.svg" alt="Favicon" width={100} aspectRatio="1:1" />
+    <Image
+      src="/favicon.svg"
+      alt="Favicon"
+      width={100}
+      aspectRatio="1:1"
+      class="hidden sm:flex"
+    />
+    <div
+      class="justify-center items-center text-3xl text-gray-400 hover:text-gray-700 i-tabler-home flex sm:hidden"
+    >
+    </div>
   </a>
   <nav class="p-8 w-full grid grid-cols-[auto_max-content] box-border">
     <div class="m-auto"></div>
