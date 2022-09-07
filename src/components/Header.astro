@@ -1,11 +1,11 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE } from "../config";
+import { Image } from "@astrojs/image/components";
 ---
 
 <header class="z-40">
   <a href="/" class="w-10 h-10 absolute lg:fixed m-6 select-none outline-none">
-    <img src="/favicon.svg" />
+    <Image src="/favicon.svg" alt="Favicon" width={100} aspectRatio="1:1" />
   </a>
   <nav class="p-8 w-full grid grid-cols-[auto_max-content] box-border">
     <div class="m-auto"></div>
