@@ -20,26 +20,24 @@ export const components = {
 In 2021, my political intrigue starting moving leftward. I'd always labelled myself a left-liberal
 or <Link external href="https://en.wikipedia.org/wiki/Social_democracy">social democrat</Link> ("Europe has free healthcare and education, isn't that rad?").
 
-After a year or two of reading Jacobin and finally reading
-Lizzie O'Shea's <Link class="italic" external href="https://www.versobooks.com/books/3747-future-histories">Future Histories</Link>, I felt
-like I saw the truest value of technology. It wasn't too enable billionaires to colonize Mars or aid in other fun frivolities.
-It was to emancipate; to facilitate alternative ways of economic organization that prioritize peoples' needs over profit and unsustainable growth,
+After reading
+Lizzie O'Shea's <Link class="italic" external href="https://www.versobooks.com/books/3747-future-histories">Future Histories</Link>,
+I felt like I saw the truest value of technology. It wasn't too enable billionaires to colonize Mars or aid in other fun frivolities.
+It was to emancipate; to help people; to facilitate alternative ways of economic organization that
+prioritize peoples' needs over profit and unsustainable growth,
 and prevent inequality, monopolization, and domination.
 
-It's not that we need to dispense entirely with markets (although there's an
+It's not that we need to abolish markets — there's an
 interesting <Link external href="https://www.versobooks.com/books/2822-the-people-s-republic-of-walmart">case</Link> for
-that as well); it's more that we could and should have saner defaults that remove the worst pathologies of our economic system.
+that, but it's an entirely different discussion. On the contrary, it's about reconfiguring and refactoring our existing
+modes of organization to limit the worst pathologies of our economic system.
 
-Anyways, I was happy to discover that labor was and is organizing itself, under the name, The Drivers Cooperative.
-Drivers in NYC were organizing and starting their own company to drive on their own terms
-and escape the <Link external href="https://jacobin.com/2022/07/uber-files-leak-global-war-workers-lobbying">depredations</Link> of Uber, happening:
-
-- in <Link external href="https://www.un.org/africarenewal/magazine/august-november-2017/africa%E2%80%99s-app-based-taxis-battle-uber-over-market-share">Africa</Link>
-- in <Link external href="https://indianexpress.com/article/india/trade-unions-demand-action-uber-india-governments-rein-corrupt-practices-8026946/">India</Link>
-- in <Link external href="https://news.techworkerscoalition.org/2022/04/12/issue-6/">Bangladesh</Link>
-- in <Link external href="https://www.washingtonpost.com/business/2022/07/11/uber-driver-south-africa-attacks/">South Africa</Link>
-
-And in New York City.
+I was happy to read about
+the <Link external href="https://www.mutualinterest.coop/2021/09/why-has-new-york-seen-a-boom-in-new-worker-cooperatives">rise of worker cooperatives</Link> in New York City.
+Former Uber and Lyft drivers were organizing themselves under The Drivers Cooperative,
+a crowd-funded company free from all the pressures that come with venture capital,
+and building a healthy, sustainable, democratic system of governance that would allow drivers to work on their own terms
+and to finally shift away from an industry that had never really had their backs.
 
 <div class="flex justify-center my-8 space-x-4">
   <Link href="/tdc/kenny-chow-1.png" external>
@@ -66,6 +64,13 @@ In Fall 2021, I heard about the story
 of <Link external href="https://www.nytimes.com/2019/12/23/nyregion/nyc-taxi-suicides.html">Kenny Chow</Link> — a cab driver
 who was drowning in $750,000 debt and eventually died by suicide — and the
 ensuing <Link external href="https://www.youtube.com/watch?v=ZqRHHUky0Lc">hunger strikes</Link>.
+The industry has been predatory and immiserating for a while. Uber coming along didn't help things.
+And these <Link external href="https://jacobin.com/2022/07/uber-files-leak-global-war-workers-lobbying">depredations</Link> weren't simply happening in New York, but elsewhere around the globe:
+
+- in <Link external href="https://www.un.org/africarenewal/magazine/august-november-2017/africa%E2%80%99s-app-based-taxis-battle-uber-over-market-share">Africa</Link>
+- in <Link external href="https://indianexpress.com/article/india/trade-unions-demand-action-uber-india-governments-rein-corrupt-practices-8026946/">India</Link>
+- in <Link external href="https://news.techworkerscoalition.org/2022/04/12/issue-6/">Bangladesh</Link>
+- in <Link external href="https://www.washingtonpost.com/business/2022/07/11/uber-driver-south-africa-attacks/">South Africa</Link>
 
 After listening to a <Link external href="https://open.spotify.com/episode/57UHLh0MiizZYdOTfaqNLn?si=80a1ab9369fa4d91">podcast</Link> featuring
 the CTO of The Drivers Cooperative, I was hooked and knew
@@ -82,13 +87,11 @@ I left my <Link external href="/blog/care-dot-com">role at Care.com</Link> and t
 
 In the end, I made some cool contributions:
 
-- a React-powered UI for dispatchers to manage their fleet, including a nifty Google Map which provided real-time trip locations and updates;
-- a 15s -> 1s SQL query performance improvement using indexes, event sourcing, and denormalization (wider tables, fewer JOINS);
-- an open-source, traffic-aware <Link external href="https://github.com/kevinmichaelchen/api-dispatch/">dispatch server</Link> written in Go and, ironically,
-  powered by Uber's own geospatial indexing library, H3.
-
-(Uber has made some insane contributions to the world of engineering, but that doesn't mean
-their economic model shouldn't be revealed, scrutinized, condemned, and combatted. 😎)
+- **A real-time UI**: built with React, that allowed dispatchers to manage and visualize their fleet, and included a nifty Google Map which provided real-time trip locations and updates;
+- **Query performance**: a 15s -> 1s SQL query performance improvement using indexes, event sourcing, and denormalization (wider tables, fewer JOINS);
+- **Dispatch server**: an open-source, traffic-aware <Link external href="https://github.com/kevinmichaelchen/api-dispatch/">dispatch server</Link> to identify passengers nearest to a driver;
+  written in Go and, ironically, powered by Uber's own geospatial indexing library, H3. (Uber has made some insane contributions to the world of engineering, but that doesn't mean
+  their economic model shouldn't be scrutinized, condemned, and combatted. 😎)
 
 ### Event sourcing
 
