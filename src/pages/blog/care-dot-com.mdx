@@ -3,9 +3,9 @@ layout: "../../layouts/BlogPost.astro"
 title: "Engineering at Care.com"
 description: "My time as an engineer at Care.com"
 pubDate: "Mar 08 2022"
-heroImageSrc: "/placeholder-hero.jpg"
-heroImageHeight: 360
-heroImageAspectRatio: "2:4"
+heroImageSrc: "/logo-care.jpg"
+heroImageWidth: 360
+heroImageAspectRatio: "1074:422"
 ---
 
 import { Image } from "@astrojs/image/components";
@@ -15,7 +15,7 @@ export const components = {
   ...headers,
 };
 
-In my next role post-IrisVR, I was looking for similar tech-stack environment: Golang, AWS, Kafka, gRPC, protobufs, microservices, event-driven, etc.
+In my next role post-<Link external href="/blog/irisvr">IrisVR</Link>, I was looking for similar tech-stack environment: Golang, AWS, Kafka, gRPC, protobufs, microservices, event-driven, etc.
 
 Care.com had that technology, but it also had more process, more infrastructure, more documentation, more everything — due to its 200+ engineers.
 The platform team there was excellent. They built and maintained the template that all Go microservices and lambdas ran on; a big win in terms of standardization.
@@ -149,9 +149,23 @@ Once a document expired, it would invoke a Lambda, which would send the expired 
 The idea behind this epic was that by creating these cheaper auto-accept leads, providers would see greater lead conversion and it would be a better experience
 for both sides of the market.
 
+### Lingering questions
+
+- Why 30-60 minutes? Why not 10 minutes, or 2 hours?
+- If a user gets a list of search results but then leaves her laptop for an hour, is that really communicating much about user intent?
+- Do such leads deserve to be converted and billed at standard rates?
+
 ## Win 5: Google Ads Location Targeting
 
 **The Problem:** We want better ad targeting (for greater lead conversion).
+
+Prior to this epic, <Link external href="https://developers.google.com/google-ads/api/docs/concepts/api-structure">Google Ads</Link> were
+manually targeted at certain areas and tediously updated by the marketing team.
+
+The thesis was simple: ads drive lead conversion and revenue, and should be powered by an automated, tunable, configurable process.
+This process shouldn't simply be dependent on _coverage_ (the number of providers within a postal code), but also on
+_solvency_ (how much monthly budget providers had remaining). It also needs to be written in such a way that it's
+extensible: coverage and solvency matter today, but maybe other things matter tomorrow.
 
 <div class="flex justify-center mt-12">
   <Link href="/care-dot-com/04-ads-location-targeting.png" external>
@@ -163,4 +177,50 @@ for both sides of the market.
       alt="The Care.com Google Ads Architecture"
     />
   </Link>
+</div>
+
+During the planning phase of the epic, it was clear we would need to use CDK to create a few more pieces
+of AWS infrastructure: a new EventBridge rule (for scheduling), S3 bucket (for configuration), and Lambda (for execution).
+
+- The S3 bucket allowed for managers to tweak the config file without needing a code redeployment, something that wouldn't have been possible
+  had we used env vars in our <Link external href="https://harness.io/">Harness</Link> configs.
+- The Lambda would execute daily, triggered by EventBridge; or whenever the configs changed.
+
+As diagrammed, the first step the Lambda took was to read the config file, which determined:
+
+- **coverage** — the minimum required number of providers in a postal code to justify an ad target (coverage);
+- **solvency** — the minimum percentage of monthly budget remaining a provider needed to qualify / not get filtered out.
+
+After that, the Lambda would read all existing provider IDs from the existing Google Ads campaigns.
+Using those IDs, it would retrieve the postal codes that each provider served. This would be done in
+batch and in parallel using the <Link external href="https://pkg.go.dev/golang.org/x/sync/errgroup">errgroup</Link> package.
+(I was really impressed with this <Link external href="https://www.fullstory.com/blog/why-errgroup-withcontext-in-golang-server-handlers/">blog post</Link> the first time I read it).
+Finally, the Lambda would make calls to the Google Ads API to add/remove postal codes in batch.
+
+### Reflecting on the Ads Epic
+
+Most of these thoughts / rules to myself I more or less followed throughout the implementation of this epic.
+But they're definitely good reminders.
+
+1. **Postal codes are easy but ... strange?**. Postal codes aren't uniform and vary in geospatial size. Although I suppose they correlate inversely
+   with population density. And they are easy to reason about in general. However, as a user/consumer,
+   you might feel better served but other postal codes.
+   Tessellating the world into uniform shapes and factoring in traffic might have been a win.
+   (This would be something I would think about in my next role at The Drivers Coop).
+2. **Make sure your libraries/dependencies actually work**. The Go library I wanted to use (Opteo/google-ads-go) wasn't stable enough; I should've known given its 15-star count on GitHub. In the end, I think
+   I settled for hand-rolled REST communication but used the official <Link external href="https://github.com/googleapis/googleapis/tree/master/google/ads/googleads/v10/services">googleapis protos</Link> for (un)marshalling requests/responses.
+3. **Integrating with 3rd parties is sometimes hard**. I remember getting Google Ads <Link external href="https://developers.google.com/google-ads/api/docs/oauth/service-accounts">authn/authz</Link> right was a PITA.
+   I struggled with this for a while and eventually settled for a sub-optimal solution; either it was scoped too specifically (i.e., to an actual human user with permissions to the Google Ads Campaign, such as myself)
+   or it was scoped too broadly (i.e., to a Google service account that could mutate STG and PROD environments). It didn't help that we didn't have an actual separate Staging environment.
+   Implementing the auth in Go took a while, but it helped to curl it out on the command-line.
+4. **Do a CURL test up-front before implementing**. I had a tab in Sublime Text full of curl snippets that definitely helped remind me how the flow worked.
+
+<div class="flex justify-center mt-12">
+  <Image
+    format="webp"
+    width={360}
+    aspectRatio="1074:422"
+    src="/logo-care.jpg"
+    alt="The Care.com Logo"
+  />
 </div>
