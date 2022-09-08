@@ -18,6 +18,8 @@ export const components = {
 In my next role post-IrisVR, I was looking for similar tech-stack environment: Golang, AWS, Kafka, gRPC, protobufs, microservices, event-driven, etc.
 
 Care.com had that technology, but it also had more process, more infrastructure, more documentation, more everything — due to its 200+ engineers.
+The platform team there was excellent. They built and maintained the template that all Go microservices and lambdas ran on; a big win in terms of standardization.
+They also provided CDK SDKs each team could use to deploy their own infrastructure — S3 buckets, Lambdas, Kafka topics, etc.
 
 I learned a lot from more senior engineers. Little things, like how to write table-driven unit tests using nothing but the standard library, <Link href="https://gist.github.com/kevinmichaelchen/6afae8ecf0bfb28248877c39abaf0ced" external>when/where to declare an interface</Link>, etc.
 But also more important things: habits like _"stop starting, start stopping"_, agreeing on a good _definition of done_, awareness about over-engineering (KISS), etc.
@@ -39,3 +41,70 @@ to visually explain parts of our stack. Maybe this would cause Slack to inadvert
 for documentation, but I didn't think that was necessarily a bad thing.
 
 ## Win 2: Senior-Care Ingestion
+
+When I arrived, our ingestion pipeline for provider profiles had been built out for child-care centers.
+
+<div class="flex justify-center mt-12">
+  <Link href="/care-dot-com/ingestion.png" external>
+    <Image
+      format="webp"
+      width={720}
+      aspectRatio="2715:663"
+      src="/care-dot-com/ingestion.png"
+      alt="The Care.com Provider Profile Ingestion Pipeline"
+    />
+  </Link>
+</div>
+
+To onboard new senior-care facilities, all we had to do was update our <Link href="https://developers.google.com/protocol-buffers" external>Protocol Buffer</Link> (proto) model.
+
+We had to account for new kinds of properties that didn't normally exist in the context of child-care:
+
+- Does the facility offer memory care? Or assisted living care? Or continuing care?
+- What kind of bedroom capacities do they support? Do they have central AC?
+- Is there a 24/7 nurse on-site?
+- Is gluten-free food available?
+
+The main debate was whether these new fields would be explicitly modeled in our proto, or stored as an arbitrary string-to-string map.
+I was a strong proponent for explicit modeling. It would be a win in terms of clarity and self-documentation, and would pay dividends down the road.
+The biggest counter-argument was related to the fact that the proto would have to be updated in a few services whenever the schema did evolve.
+
+Protobufs are backwards-compatible. Adding new fields is fine.
+If we did happen to prematurely ingest a document using an old version of the protobuf, and therefore couldn't deserialize some fields yet,
+Kafka allowed us to replay messages whenever we wanted. In other words, _this edge case was something we humans could solve with process, and we didn't need to engineer around it._
+
+## Win 3: Improved search experience
+
+If there's several day-care centers in your postal code, you want search results to come back with "the best" on top.
+
+_"Best"_ in this case was determined the Data Science team, using a number of factors related to a provider,
+all of which formed a score which my team received in the form of daily CSV uploads to an S3 bucket.
+
+<div class="flex justify-center mt-12">
+  <Link href="/care-dot-com/02-provider-rankings.png" external>
+    <Image
+      format="webp"
+      width={720}
+      aspectRatio="3213:1117"
+      src="/care-dot-com/02-provider-rankings.png"
+      alt="The Care.com Search Architecture"
+    />
+  </Link>
+</div>
+
+I was responsible for implementing the AWS Lambda logic you see in the diagram.
+It would get alerted whenever new scores came in, parse the CSV file, and write
+messages to a Kafka topic.
+
+From there, _The Ingester_ would pick up the scores and upsert them into provider documents in Elasticsearch.
+At search time, the score field would be the primary sort key.
+
+There was more complexity beyond that, but you get the picture.
+
+### Complexity around search rankings
+
+For example:
+
+- The Data team sent us two scores for some reason: responsiveness score and a ranking. Because we weren't just receiving one score, we had to do some multiplication in our Elastic query using <Link external href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-using.html">Painless scripting</Link>.
+- Why couldn't the Ingester have done the multiplication? Because it wasn't guaranteed to receive or possess both of a provider's scores, and we wanted to avoid multiplying by zero. Sure, we could have throw in some "lookup" functionality, but we wanted to keep the Ingester as simple as possible.
+- The fact that the Data team's S3 bucket was in a different AWS Project meant that we couldn't do a direct bucket-to-lambda connection, but had to use an <Link external href="https://docs.aws.amazon.com/cdk/api/v1/docs/aws-s3-notifications-readme.html">SNS intermediary</Link>.
