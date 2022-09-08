@@ -1,0 +1,124 @@
+---
+layout: "../../layouts/BlogPost.astro"
+title: "Engineering at The Drivers Coop"
+description: "My time as an engineer at The Drivers Coop"
+pubDate: "Sep 02 2022"
+heroImageSrc: "/logo-tdc.png"
+heroImageWidth: 500
+heroImageAspectRatio: "1600:1032"
+---
+
+import { Image } from "@astrojs/image/components";
+import { headers } from "../../components/makeHeader.jsx";
+import Link from "../../components/Link.jsx";
+export const components = {
+  ...headers,
+};
+
+## A political journey
+
+In 2021, my political intrigue starting moving leftward. I'd always labelled myself a left-liberal
+or <Link external href="https://en.wikipedia.org/wiki/Social_democracy">social democrat</Link> ("Europe has free healthcare and education, isn't that rad?").
+
+After a year or two of reading Jacobin and finally reading
+Lizzie O'Shea's <Link class="italic" external href="https://www.versobooks.com/books/3747-future-histories">Future Histories</Link>, I felt
+like I saw the truest value of technology. It wasn't too enable billionaires to colonize Mars or aid in other fun frivolities.
+It was to emancipate; to facilitate alternative ways of economic organization that prioritize peoples' needs over profit and unsustainable growth,
+and prevent inequality, monopolization, and domination.
+
+It's not that we need to dispense entirely with markets (although there's an
+interesting <Link external href="https://www.versobooks.com/books/2822-the-people-s-republic-of-walmart">case</Link> for
+that as well); it's more that we could and should have saner defaults that remove the worst pathologies of our economic system.
+
+Anyways, I was happy to discover that labor was and is organizing itself, under the name, The Drivers Cooperative.
+Drivers in NYC were organizing and starting their own company to drive on their own terms
+and escape the <Link external href="https://jacobin.com/2022/07/uber-files-leak-global-war-workers-lobbying">depredations</Link> of Uber, happening:
+
+- in <Link external href="https://www.un.org/africarenewal/magazine/august-november-2017/africa%E2%80%99s-app-based-taxis-battle-uber-over-market-share">Africa</Link>
+- in <Link external href="https://indianexpress.com/article/india/trade-unions-demand-action-uber-india-governments-rein-corrupt-practices-8026946/">India</Link>
+- in <Link external href="https://news.techworkerscoalition.org/2022/04/12/issue-6/">Bangladesh</Link>
+- in <Link external href="https://www.washingtonpost.com/business/2022/07/11/uber-driver-south-africa-attacks/">South Africa</Link>
+
+And in New York City.
+
+<div class="flex justify-center my-8 space-x-4">
+  <Link href="/tdc/kenny-chow-1.png" external>
+    <Image
+      format="webp"
+      height={340}
+      aspectRatio="1198:1456"
+      src="/tdc/kenny-chow-1.png"
+      alt="Here's Richard Chow. He's 63 yrs old. He has driven a taxi in NY for 16 yrs and is on hunger strike. He owes $389k to a hedge fund for his medallion. Pre-pandemic, he had to pay $2,766/month. His brother Kenny was a taxi driver who died by suicide in 2018 bc of his $580k in debts."
+    />
+  </Link>
+  <Link href="/tdc/kenny-chow-2.png" external>
+    <Image
+      format="webp"
+      height={340}
+      aspectRatio="1092:2090"
+      src="/tdc/kenny-chow-2.png"
+      alt="This is Richard Chow. He is 63 yrs old. He has driven a taxi for 16 yrs. He owes $389k to a hedge fund for his medallion. Before the pandemic, he had to pay $2,766/month. His brother Kenny was a taxi driver who committed suicide in 2018 bc of his debts. He owed $580k at the time"
+    />
+  </Link>
+</div>
+
+In Fall 2021, I heard about the story
+of <Link external href="https://www.nytimes.com/2019/12/23/nyregion/nyc-taxi-suicides.html">Kenny Chow</Link> — a cab driver
+who was drowning in $750,000 debt and eventually died by suicide — and the
+ensuing <Link external href="https://www.youtube.com/watch?v=ZqRHHUky0Lc">hunger strikes</Link>.
+
+After listening to a <Link external href="https://open.spotify.com/episode/57UHLh0MiizZYdOTfaqNLn?si=80a1ab9369fa4d91">podcast</Link> featuring
+the CTO of The Drivers Cooperative, I was hooked and knew
+I wanted to support
+the <Link external href="https://en.wikipedia.org/wiki/Platform_cooperative">platform cooperative</Link> movement.
+
+After volunteering for a few weeks, I knew I had to jump in full-time to
+really accelerate my learning curve — (I had either never, or only marginally,
+used <Link external href="https://hasura.io/">Hasura</Link>, Typescript, and <Link external href="https://www.postgresql.org/docs/current/plpgsql.html">Postgres functions</Link>).
+
+I left my <Link external href="/blog/care-dot-com">role at Care.com</Link> and took a 50% pay cut to work as a contractor.
+
+## Engineering
+
+In the end, I made some cool contributions:
+
+- a React-powered UI for dispatchers to manage their fleet, including a nifty Google Map which provided real-time trip locations and updates;
+- a 15s -> 1s SQL query performance improvement using indexes, event sourcing, and denormalization (wider tables, fewer JOINS);
+- an open-source, traffic-aware <Link external href="https://github.com/kevinmichaelchen/api-dispatch/">dispatch server</Link> written in Go and, ironically,
+  powered by Uber's own geospatial indexing library, H3.
+
+(Uber has made some insane contributions to the world of engineering, but that doesn't mean
+their economic model shouldn't be revealed, scrutinized, condemned, and combatted. 😎)
+
+### Event sourcing
+
+_Event sourcing_ was one of those patterns I had heard about for a long time but never actually used in production.
+
+At TDC, it served us well both in terms of performance and in our ability to grok the actions taken by users.
+
+For an explanation, imagine you have a job (trip) table. A job has an ID, a status (e.g., pending, in progress, complete), and an associated driver.
+
+In the simplest CRUD applications, this _state table_ is all you'd have.
+Mutations would happen directly to an entity, and there would be no trail of mutations occurred.
+
+<div class="flex justify-center my-8 space-x-4">
+  <Link href="/tdc/event-sourcing.png" external>
+    <Image
+      format="webp"
+      width={420}
+      aspectRatio="1716:1470"
+      src="/tdc/event-sourcing.png"
+      alt="Event sourcing description."
+    />
+  </Link>
+</div>
+
+Event sourcing provides that trail and lets you reconstruct _entity state_ based on a log of events (e.g., "job_log").
+For simplicity, we decided log records could just have a jsonb payload. This kept the schema small and homogenous across
+different types of tables (e.g., job_log, driver_log, vehicle_log — they all had that familiar jsonb column).
+
+From the perspective of the UI client, instead of doing CRUD on the job table, they would shift to doing
+change is you do inserts on the log table. The "event type" field is useful for distinguishing creations, updates,
+and deletions. <Link external href="https://www.postgresql.org/docs/current/plpgsql-trigger.html">Postgres triggers</Link> are
+used to update the _state table_ (e.g., job) in tandem with the _log
+table_ (e.g., job_log).
