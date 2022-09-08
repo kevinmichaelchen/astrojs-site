@@ -42,6 +42,8 @@ for documentation, but I didn't think that was necessarily a bad thing.
 
 ## Win 2: Senior-Care Ingestion
 
+**The Problem:** Our ingestion pipeline needs to be extensible to different business verticals.
+
 When I arrived, our ingestion pipeline for provider profiles had been built out for child-care centers.
 
 <div class="flex justify-center mt-12">
@@ -74,6 +76,8 @@ If we did happen to prematurely ingest a document using an old version of the pr
 Kafka allowed us to replay messages whenever we wanted. In other words, _this edge case was something we humans could solve with process, and we didn't need to engineer around it._
 
 ## Win 3: Improved search experience
+
+**The Problem:** Users want better search result sorting.
 
 If there's several day-care centers in your postal code, you want search results to come back with "the best" on top.
 
@@ -108,3 +112,55 @@ For example:
 - The Data team sent us two scores for some reason: responsiveness score and a ranking. Because we weren't just receiving one score, we had to do some multiplication in our Elastic query using <Link external href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-using.html">Painless scripting</Link>.
 - Why couldn't the Ingester have done the multiplication? Because it wasn't guaranteed to receive or possess both of a provider's scores, and we wanted to avoid multiplying by zero. Sure, we could have throw in some "lookup" functionality, but we wanted to keep the Ingester as simple as possible.
 - The fact that the Data team's S3 bucket was in a different AWS Project meant that we couldn't do a direct bucket-to-lambda connection, but had to use an <Link external href="https://docs.aws.amazon.com/cdk/api/v1/docs/aws-s3-notifications-readme.html">SNS intermediary</Link>.
+
+## Win 4: Auto-Accept Leads
+
+**The Problem:** We want greater lead conversion.
+
+What on earth is an _auto-accept lead_? Better yet, what is a _lead_?
+
+If you're like I was, someone with no marketing knowledge, you'll have to do some research.
+But basically, <Link external href="https://en.wikipedia.org/wiki/Lead_generation">lead generation</Link> is:
+_the initiation of consumer interest or enquiry into products or services of a business_.
+
+A lead basically captures a care-seeker ID and a care-provider ID, and has all sorts of prices, discounts, and multipliers attached to it as well.
+
+When a user types in their zip code and we render a list of nearby, suitable day-care centers, and then they click on one of the provider links,
+they are explicitly declaring some form of interest. We capture this intention as a (_consumer-choice_) Lead.
+
+What about the other search results that showed up that didn't get clicked on? These are still potential matches, also known as _auto-accept leads_, _pending leads_, _potential leads_, etc.
+
+<div class="flex justify-center mt-12">
+  <Link href="/care-dot-com/03-auto-accept-leads.png" external>
+    <Image
+      format="webp"
+      width={720}
+      aspectRatio="2110:1476"
+      src="/care-dot-com/03-auto-accept-leads.png"
+      alt="The Care.com Auto-Accept Leads Architecture"
+    />
+  </Link>
+</div>
+
+As shown in the diagram, after 30-60 minutes, we had our client-side code make a request to
+persist these pending leads to DynamoDB, where they received a <Link external href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html">TTL</Link> of 1 hour.
+Once a document expired, it would invoke a Lambda, which would send the expired payload (via gRPC) to the Leads API, which would persist it as an actual Lead.
+
+The idea behind this epic was that by creating these cheaper auto-accept leads, providers would see greater lead conversion and it would be a better experience
+for both sides of the market.
+
+## Win 5: Google Ads Location Targeting
+
+**The Problem:** We want better ad targeting (for greater lead conversion).
+
+<div class="flex justify-center mt-12">
+  <Link href="/care-dot-com/04-ads-location-targeting.png" external>
+    <Image
+      format="webp"
+      width={720}
+      aspectRatio="2009:1358"
+      src="/care-dot-com/04-ads-location-targeting.png"
+      alt="The Care.com Google Ads Architecture"
+    />
+  </Link>
+</div>
