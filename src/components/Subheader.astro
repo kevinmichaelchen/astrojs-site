@@ -1,0 +1,42 @@
+---
+const links = [
+  {
+    href: "/blog",
+    name: "Blog",
+  },
+  {
+    href: "/resume",
+    name: "Résumé",
+  },
+  {
+    href: "/about",
+    name: "About",
+  },
+];
+---
+
+<div class="prose m-auto mb-8 select-none">
+  <div class="flex flex-wrap mb-0 gap-2 sm:gap-3 text-xl sm:text-3xl space-x-2">
+    {
+      links.map((l) => {
+        const isActive = l.href === Astro.url.pathname;
+        return (
+          <a
+            href={l.href}
+            aria-current={isActive ? "page" : "false"}
+            class:list={[
+              { "no-underline": !isActive },
+              { "underline-offset-4": isActive },
+              "!border-none",
+              "opacity-20",
+              "hover:opacity-50",
+              "font-400",
+            ]}
+          >
+            {l.name}
+          </a>
+        );
+      })
+    }
+  </div>
+</div>

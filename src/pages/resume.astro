@@ -1,0 +1,67 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Subheader from "../components/Subheader.astro";
+import Footer from "../components/Footer.astro";
+import Link from "../components/Link.jsx";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={`${SITE_TITLE} | Resume`} description={SITE_DESCRIPTION} />
+    <style>
+      ul {
+        list-style-type: none;
+        padding: unset;
+      }
+      ul li {
+        display: flex;
+      }
+      ul li time {
+        flex: 0 0 130px;
+        font-style: italic;
+        color: #888;
+      }
+      ul li a:visited {
+        color: #8e32dc;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="prose m-auto">
+      <Subheader />
+      <section>
+        <div class="flex justify-center items-center space-x-2">
+          <Link external href="/resume.pdf"><h3>PDF</h3></Link>
+          <span class="text-3xl flex justify-center items-center mt-8">*</span>
+          <Link external href="https://www.overleaf.com/read/dtpfhnwfyknp"
+            ><h3>Latex</h3>
+          </Link>
+        </div>
+      </section>
+      <section>
+        <Link external href="/blog/the-drivers-coop"
+          ><h4>The Drivers Coop</h4>
+        </Link>
+        <ul class="space-y-4">
+          <li>Foo</li>
+          <li>Bar</li>
+        </ul>
+        <Link external href="/blog/care-dot-com"><h4>Care.com</h4></Link>
+        <ul class="space-y-4">
+          <li>Foo</li>
+          <li>Bar</li>
+        </ul>
+        <Link external href="/blog/irisvr"><h4>IrisVR</h4></Link>
+        <ul class="space-y-4">
+          <li>Foo</li>
+          <li>Bar</li>
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

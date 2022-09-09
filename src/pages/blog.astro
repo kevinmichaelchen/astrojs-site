@@ -1,6 +1,7 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
+import Subheader from "../components/Subheader.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../config";
 
@@ -45,6 +46,7 @@ const postChunks = (await Astro.glob("./blog/*.{md,mdx}"))
   <body>
     <Header />
     <main class="prose m-auto">
+      <Subheader />
       <section>
         <ul class="space-y-4">
           {

@@ -1,0 +1,109 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Subheader from "../components/Subheader.astro";
+import Footer from "../components/Footer.astro";
+import { Image } from "@astrojs/image/components";
+
+export interface Props {
+  content: {
+    title: string;
+    description: string;
+    pubDate?: string;
+    updatedDate?: string;
+    heroImageSrc?: string;
+    heroImageWidth?: number;
+    heroImageHeight?: number;
+    heroImageAlt?: string;
+    heroImageAspectRatio?: string;
+    heroImageClass?: string;
+  };
+}
+
+const {
+  url,
+  content: {
+    title,
+    description,
+    pubDate,
+    updatedDate,
+    heroImageSrc,
+    heroImageWidth,
+    heroImageHeight,
+    heroImageAlt,
+    heroImageAspectRatio,
+    heroImageClass,
+  },
+} = Astro.props;
+
+const tweetIntent = `Reading @kevinmchen's https://kchen.io${url}\n\nI think...`;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Kevin Chen | Blog | ${title}`}
+      description={description}
+    />
+  </head>
+
+  <body>
+    <Header />
+    <main class="px-7 pb-10">
+      <div class="prose m-auto mb-8">
+        <Subheader />
+        <h1 class="mb-0">
+          {title}
+        </h1>
+
+        {pubDate && <time>{pubDate}</time>}
+        {
+          updatedDate && (
+            <div>
+              Last updated on <time>{updatedDate}</time>
+            </div>
+          )
+        }
+
+        <p class="opacity-50 !-mt-2">
+          May 30 <span>· 9min</span>
+        </p>
+      </div>
+      <article>
+        <div class="flex justify-center p-4">
+          {
+            heroImageSrc && (
+              <Image
+                class={heroImageClass}
+                format="webp"
+                width={heroImageWidth}
+                height={heroImageHeight}
+                aspectRatio={
+                  heroImageWidth && heroImageHeight
+                    ? undefined
+                    : heroImageAspectRatio
+                }
+                src={heroImageSrc}
+                alt={heroImageAlt ?? ""}
+              />
+            )
+          }
+        </div>
+        <hr class="my-4 mx-0" />
+        <div class="prose m-auto">
+          <slot />
+        </div>
+      </article>
+      <div class="prose m-auto mt-16 mb-4">
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            tweetIntent
+          )}`}
+        >
+          comment on twitter
+        </a>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
