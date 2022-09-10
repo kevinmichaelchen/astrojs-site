@@ -1,0 +1,25 @@
+---
+import { GET_BOOKS_QUERY, Book } from "../../queries/queries";
+
+const books = await fetch(`${import.meta.env.HYGRAPH_URL}`, {
+  method: "POST",
+  headers: {
+    authorization: `Bearer ${import.meta.env.HYGRAPH_TOKEN}`,
+  },
+  body: JSON.stringify({
+    query: GET_BOOKS_QUERY,
+  }),
+});
+const resJSON = await books.json();
+if (!resJSON) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Books retrieval failed",
+  });
+}
+
+export function getStaticPaths() {
+  // Generates: /reads/{slug}
+  return resJSON.data.books.map((b: Book) => ({ params: { slug: b.slug } }));
+}
+---
