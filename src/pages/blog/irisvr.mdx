@@ -63,7 +63,22 @@ Going into this project, we had two main constraints:
 ### Events and Disconnected Ops
 
 To achieve the first goal, we decided the client would need to cache events. When it had an internet connection,
-it would periodically sync those events to the server. For this, I built a <Link external href="https://grpc.io/">gRPC</Link> API on <Link external href="https://firebase.google.com/docs/firestore">Google Cloud Firestore</Link>.
+it would periodically sync those events to the server.
+
+For this, I built a <Link external href="https://grpc.io/">gRPC</Link> API on <Link external href="https://firebase.google.com/docs/firestore">Google Cloud Firestore</Link>.
+
+<div class="flex justify-center mt-4">
+  <Link href="/irisvr/grpc-service.png" external>
+    <Image
+      format="webp"
+      width={720}
+      aspectRatio="1638:564"
+      src="/irisvr/grpc-service.png"
+      alt="The IrisVR Cloud-Hosting API Contract. Image built with https://carbon.now.sh/"
+    />
+  </Link>
+</div>
+
 Although the system I ended up building was akin to an infinitely nestable hierarchical file system, in practice the only two domain entities that mattered
 were _projects_ (folders) and _experiences_ (CAD files, represented as bundles of files, kind of like a ZIP file).
 
@@ -111,6 +126,17 @@ could it start creating, mutating, and/or deleting existing nodes.
 I remember writing a bunch of unit tests for this behavior, only to scrap all of them in favor of integration tests.
 Reasoning about an API contract is a lot less overwhelming and more readable than trying to reason about internal complexity.
 _Treating our logic like a black box led to better test coverage and confidence_.
+
+#### Parallelization
+
+It was critical for the client to be able to recursively navigate the file system in a somewhat performant way.
+
+Considering that each Firestore lookup took 50s, and each query 200ms, parallelization was absolutely necessary.
+
+Starting from the root node (the _project_), the client would issue a **ListChildren** RPC (200ms), and then for each child,
+it would issue a subsequent lookup RPCs (each taking 50ms). Using goroutines to parallelize these lookups was a big win.
+I was <Link external href="https://twitter.com/kevinmchen/status/1245039470447034368">pretty excited</Link> upon hooking them
+up with Jaeger so we could visualize our traces and identify hotspots and bottlenecks.
 
 ## Win 3: Issue Tracking
 
