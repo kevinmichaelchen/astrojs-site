@@ -31,8 +31,7 @@ and ZSH [auto-suggestions](https://github.com/zsh-users/zsh-autosuggestions).
 
 ## Desktop
 
-[Tauri](https://tauri.app/) improves on Electron; it's faster and consumes fewer resources.
-mantine components
+[Tauri](https://tauri.app/) improves on [Electron](https://www.electronjs.org/); it's faster and consumes fewer resources.
 
 ## UI Development
 
@@ -41,9 +40,8 @@ mantine components
 Theo gives a [good discussion](https://youtu.be/v5WDJ6U_TmQ?t=497) on
 which front-end framework to pick.
 
-Use [AstroJS](https://astro.build/) for static sites (e.g., marketing sites).
-
-Use [NextJS](https://nextjs.org/) for interactive webapps.
+For static sites (e.g., marketing sites), I'd use [AstroJS](https://astro.build/).
+For interactive webapps, I'd use [NextJS](https://nextjs.org/).
 
 ### UI Libraries
 
@@ -53,9 +51,10 @@ tech debt React is built on.
 [Jack Herrington](https://www.youtube.com/watch?v=OqcHoLWyyIw)
 give a pretty good overview.
 You can use JSX so you'll feel at home if you've used React before,
-but offers improvements in terms of performance, reactivity, state management, and more.
+but you'll also see improvements in terms of
+performance, reactivity, state management, and more.
 
-### Dependencies
+### Dependency Management
 
 For dependencies, I use [pnpm](https://pnpm.io/pnpm-vs-npm) to save on
 space and have a cleaner node_modules.
@@ -89,7 +88,10 @@ For document DBs, you can check out [Fauna](https://fauna.com/),
 
 With SQL, popular choices are MySQL and Postgres.
 For scale, I might look at [Vitess](https://vitess.io/)/[Planetscale](https://planetscale.com/) for MySQL,
-or [CockroachDB](https://www.cockroachlabs.com/), [Yugabyte](https://www.yugabyte.com/), or [Neon](https://neon.tech/) ("serverless") for Postgres.
+or [CockroachDB](https://www.cockroachlabs.com/),
+[Yugabyte](https://www.yugabyte.com/),
+[Supabase](https://supabase.com/), or
+[Neon](https://neon.tech/) ("serverless") for Postgres.
 
 For small projects, [PocketBase](https://pocketbase.io/) looks like a convenient open-source NoSQL solution.
 
@@ -111,12 +113,12 @@ to changes in a database.
 For small apps, you can reach for [supabase/realtime](https://github.com/supabase/realtime).
 
 You can use [Materialize](https://materialize.com/) for OLTP
-or [ksqlDB](https://ksqldb.io/) for OLAP to power real-time materialized views,
+or [ksqlDB](https://ksqldb.io/) for OLAP to power real-time materialized views.
 Alternatively, [Debezium](https://debezium.io/) is often used to stream
 events from a DB into [Kafka](https://kafka.apache.org/).
 
 Want something [more performant](https://redpanda.com/platform) than Kafka
-without having to mess with Zookeeper?
+without having to mess with Zookeeper or JVMs?
 Check out [RedPanda](https://redpanda.com).
 
 Also check out [Decodable](https://www.decodable.co/).
@@ -142,26 +144,32 @@ Temporal clusters, but a cloud offering is coming soon.
 
 ## API
 
-The data from your backend has to get to your frontend, somehow.
+The data from your backend has to get to your frontend somehow.
 
 ### GraphQL
 
-The dev experience working with GraphQL on the client-side has been pretty positive. [Auto-generating types](https://www.apollographql.com/blog/tooling/apollo-codegen/typescript-graphql-code-generator-generate-graphql-types/) helps massively.
+The dev experience working with GraphQL on the client-side has been pretty positive.
+[Auto-generating types](https://www.apollographql.com/blog/tooling/apollo-codegen/typescript-graphql-code-generator-generate-graphql-types/)
+helps massively.
 
 For small projects that want a Dynamo-powered GraphQL API for free, go to [Grafbase](https://grafbase.com/).
 
 [Hasura](https://hasura.io/) gives you a GraphQL API over your Postgres DB.
 
-[GraphQL-Mesh](https://www.the-guild.dev/graphql/mesh/docs) can give you a GraphQL API over a large number of [sources](https://www.the-guild.dev/graphql/mesh/docs/handlers/handlers-introduction),
+[GraphQL-Mesh](https://www.the-guild.dev/graphql/mesh/docs) can give you a
+GraphQL API over a large number of [sources](https://www.the-guild.dev/graphql/mesh/docs/handlers/handlers-introduction),
 including gRPC APIs, SQL DBs, MongoDB, etc.
 
 ### gRPC
 
 [gRPC](https://grpc.io/) is great for service-to-service communication.
 The best part of this dev experience is using [protobufs](https://developers.google.com/protocol-buffers): they're performant, strongly-typed, and self-documenting.
-The [Buf ecosystem](https://buf.build/) has made the experience of using protobufs orders of magnitude better,
-thanks to their [tools](https://buf.build/product/cli/) around linting and breaking-change detection,
-[remote library generation](https://buf.build/product/bsr/#remote-library-generation), and their [schema registry](https://buf.build/product/bsr/).
+The [Buf ecosystem](https://buf.build/) has made the experience
+of using protobufs orders of magnitude better,
+thanks to their [tools](https://buf.build/product/cli/)
+around linting, formatting, and breaking-change detection;
+[remote library generation](https://buf.build/product/bsr/#remote-library-generation);
+and their [schema registry](https://buf.build/product/bsr/).
 They even built a [better version of gRPC](https://connect.build/) itself, with a much [better replacement](https://buf.build/blog/connect-web-protobuf-grpc-in-the-browser) for grpc-web.
 
 ### tRPC
