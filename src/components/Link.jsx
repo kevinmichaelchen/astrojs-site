@@ -13,4 +13,12 @@ const Link = ({
   );
 };
 
+export const ExternalLink = ({ children, ...restProps }) => {
+  return (
+    <Link external {...restProps}>
+      {children}
+    </Link>
+  );
+};
+
 export default Link;

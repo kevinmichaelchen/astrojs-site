@@ -79,6 +79,7 @@ const postChunks = (await Astro.glob("./blog/*.{md,mdx}"))
                                 month: "short",
                                 day: "numeric",
                               })}
+                              {post.frontmatter.tags}
                             </div>
                           </li>
                         </a>

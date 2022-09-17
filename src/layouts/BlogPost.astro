@@ -8,6 +8,7 @@ export interface Props {
   content: {
     title: string;
     description: string;
+    tags?: string[];
     pubDate?: string;
     updatedDate?: string;
     heroImageSrc?: string;
@@ -35,7 +36,9 @@ const {
   },
 } = Astro.props;
 
-const tweetIntent = `Reading @kevinmchen's ${import.meta.env.SITE}${url}\n\nI think...`;
+const tweetIntent = `Reading @kevinmchen's ${
+  import.meta.env.SITE
+}${url}\n\nI think...`;
 ---
 
 <html lang="en">
@@ -68,7 +71,7 @@ const tweetIntent = `Reading @kevinmchen's ${import.meta.env.SITE}${url}\n\nI th
         </p>
       </div>
       <article>
-        <div class="flex justify-center p-4">
+        <div class="flex justify-center p-4 mb-8">
           {
             heroImageSrc && (
               <Image
@@ -87,7 +90,7 @@ const tweetIntent = `Reading @kevinmchen's ${import.meta.env.SITE}${url}\n\nI th
             )
           }
         </div>
-        <hr class="my-4 mx-0" />
+        <hr class="my-12 mx-0" />
         <div class="prose m-auto font-serif">
           <slot />
         </div>
