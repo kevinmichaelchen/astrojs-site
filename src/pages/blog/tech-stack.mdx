@@ -96,51 +96,99 @@ or [CockroachDB](https://www.cockroachlabs.com/),
 For small projects, [PocketBase](https://pocketbase.io/) looks like a convenient open-source NoSQL solution.
 
 Graph databases are captivating for their ability to quickly traverse lots of edges / relationships.
-[Neo4j](https://neo4j.com/), [TigerGraph](https://www.tigergraph.com/), and [Dgraph](https://dgraph.io/) are exciting options in this domain,
+[Neo4j](https://neo4j.com/),
+[TigerGraph](https://www.tigergraph.com/), and
+[Dgraph](https://dgraph.io/) are exciting options in this domain,
 as well as [SurrealDB](https://surrealdb.com/) and [EdgeDB](https://www.edgedb.com/).
 
-For analytics, see [TimescaleDB](https://www.timescale.com/).
+### Time-series and analytics
+
+For time-series, see [TimescaleDB](https://www.timescale.com/) or [QuestDB](https://questdb.io/).
+
+For analytics, see [Rockset](https://rockset.com/).
+
+### Payments
 
 If you're building a payment rail, maybe you'd use [TigerBeetle](https://tigerbeetle.com/) and
 its [Go SDK](https://github.com/tigerbeetledb/tigerbeetle-go) to go from [5,000 transactions per second](https://www.marketwatch.com/story/why-bitcoin-wont-displace-visa-or-mastercard-soon-2017-12-15) (TPS)
 to 1 million TPS.
 
-## Streaming
+## Messaging and streaming
+
+In service-oriented architectures, you need to emit events and pass messages between services.
+[Kafka](https://kafka.apache.org/) is used here often, for its better performance over other
+message brokers like RabbitMQ. [RedPanda](https://redpanda.com) is Kafka's more performant twin sibling,
+but if you want a managed solution use [Confluent Cloud](https://www.confluent.io/confluent-cloud/).
+
+Within the AWS ecosystem, there are a [variety](https://engineering.statefarm.com/blog/comparison-of-aws-services-for-event-driven-architecture/)
+of messaging solutions you can use to build an Event-Driven Architecture.
+
+### Change Data Capture
 
 ["Change Data Capture"](https://en.wikipedia.org/wiki/Change_data_capture) (CDC) is a pattern for tracking and reacting
 to changes in a database.
 
 For small apps, you can reach for [supabase/realtime](https://github.com/supabase/realtime).
 
-You can use [Materialize](https://materialize.com/) for OLTP
-or [ksqlDB](https://ksqldb.io/) for OLAP to power real-time materialized views.
-Alternatively, [Debezium](https://debezium.io/) is often used to stream
-events from a DB into [Kafka](https://kafka.apache.org/).
+[Debezium](https://debezium.io/) is useful if you've committed or are already
+using Kafka.
 
-Want something [more performant](https://redpanda.com/platform) than Kafka
-without having to mess with Zookeeper or JVMs?
-Check out [RedPanda](https://redpanda.com).
+### Stream Processing
 
-Also check out [Decodable](https://www.decodable.co/).
+Sending data down a pipe is great, but what if you want to
+transform or process the data whilst it's in the pipe?
+Furthermore, what if you want to stitch multiple pipes together,
+creating increasingly complex pipelines?
 
-Sometimes a microservice just needs to be a SQL statement, as
-argued by [Decodable](https://www.decodable.co/blog/microservice-should-have-been-sql-statement)
-and [Materialize](https://materialize.com/docs/quickstarts/microservice/).
-"If you are familiar with the SAGA pattern, you typically will develop a
-set of microservices that work together as a transaction workflow. You could
-potentially replace some of your microservices to be Decodable streaming pipelines."
+Kafka's native solution is [ksqlDB](https://ksqldb.io/).
+Per their [blog post](https://www.confluent.io/blog/intro-to-ksqldb-sql-database-streaming/):
 
-## Orchestration
+> ksqlDB is useful for asynchronously materializing views using SQL and
+> querying them in an interactive fashion. It doesn't replace something
+> like Postgres or MongoDB as a primary storage system, nor does it have
+> the rich query capabilities of an analytical store like Elasticsearch,
+> Druid, or Snowflake. Its sweet spot is for event streaming applications
+> that are gluing together multiple systems to get simple query capabilities.
+
+Additionally, you can look to [Materialize](https://materialize.com/),
+which offers performance [improvements](https://materialize.com/blog/why-not-rocksdb/)
+over ksqlDB and [Apache Flink](https://flink.apache.org/), by avoiding
+[RocksDB](http://rocksdb.org/) altogether and not "incurring cross-core data movement for every datum."
+
+Similarly, there is [Decodable](https://www.decodable.co/), which lets you build data pipelines
+from a myriad data sources, such as Amazon Kinesis, Confluent Cloud, Kafka, RedPanda, MySQL,
+Postgres, Pulsar, and more.
+
+[Meroxa](https://docs.meroxa.com/platform/resources/overview) also sits in this space.
+
+What I like about these new tools/platforms, is they may obviate the need for
+additional microservices whose role has traditionally been to aggregate data
+and transform, enhance, or enrich it somehow.
+
+As argued by [Decodable](https://www.decodable.co/blog/microservice-should-have-been-sql-statement)
+and [Materialize](https://materialize.com/docs/quickstarts/microservice/):
+
+> If you are familiar with the SAGA pattern, you typically will develop a
+> set of microservices that work together as a transaction workflow. You could
+> potentially replace some of your microservices to be Decodable streaming pipelines.
+
+## Workflows and Orchestration
 
 If you do write sagas and workflows that span across different microservices,
 check out [Temporal](https://temporal.io/).
 
 It's one of the only tools that lets you implement a distributed workflow
 in [pure code](https://community.temporal.io/t/why-use-temporal-over-a-combination-of-aws-step-functions-and-aws-lambda/342),
-easily contrasted with something like [AWS Step Functions](https://aws.amazon.com/step-functions).
-With Temporal, you code workflows that are _actually_ complex, and
-you get visibility into workflow status. Currently, you have to self-host
+easily contrasted with something like
+[AWS Step Functions](https://aws.amazon.com/step-functions).
+With Temporal, you code complex workflows where failure is abstracted away,
+and you get visibility into workflow status. Currently, you have to self-host
 Temporal clusters, but a cloud offering is coming soon.
+
+The [main difference](https://www.reddit.com/r/docker/comments/v1oro5/comment/iat1dp8/?utm_source=reddit&utm_medium=web2x&context=3)
+between [Apache Airflow](https://airflow.apache.org/) and Temporal seems to be
+that the latter is code-first (i.e., you write workflows in code) as opposed to a DAG.
+However, I think Airflow supports writing workflows in Python now.
 
 ## API
 
