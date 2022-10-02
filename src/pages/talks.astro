@@ -17,6 +17,11 @@ const literalTalks: Talk[] = [
     href: `${talksBaseUrl}/2022-09-30/branching-strategies`,
     date: new Date(2022, 9, 27).valueOf(),
   },
+  {
+    name: "Buf: A necessary tool for protobuf development",
+    href: `${talksBaseUrl}/2022-10-03/buf`,
+    date: new Date(2022, 10, 3).valueOf(),
+  },
 ];
 const talksChunks = literalTalks.reduce(
   (acc: { [key: number]: Talk[] }, currentValue: Talk) => {
